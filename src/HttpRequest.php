@@ -8,6 +8,7 @@ class HttpRequest
 
     public static function get($url)
     {
+        $url = urlencode($url);
         return file_get_contents($url);
     }
 
@@ -22,6 +23,7 @@ class HttpRequest
             ],
         ];
         $context = stream_context_create($http);
+        $url = urlencode($url);
         return file_get_contents($url, false, $context);
     }
 }
