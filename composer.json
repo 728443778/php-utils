@@ -1,0 +1,21 @@
+{
+  "name": "728443778/php-utils",
+  "type": "library",
+  "description": "一些php的工具类，做成composer包，方便更新和使用",
+  "version" : "0.0.1",
+  "keywords": [
+    "php utils",
+    "utils"
+  ],
+  "license": "BSD",
+  "authors": [
+    {
+      "english name": "seven",
+      "名字" : "蓉城落日",
+      "email": "728443778@qq.com",
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0"
+  }
+}
