@@ -22,6 +22,6 @@
     "psr-4":{
       "sevenUtils\\":"src/"
     },
-    "files":["ErrorCode.php"]
+    "files":["src/ErrorCode.php"]
   }
 }
