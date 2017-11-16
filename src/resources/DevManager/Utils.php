@@ -1119,12 +1119,17 @@ class Utils
         return 'application/octet-stream';
     }
 
+    /**
+     * 该函数是直接向标准输出流输出 如果需要调整，清调整 STDOUT  指向的文件描述符
+     * @param $file
+     * @param string $mime
+     */
     public static function phpSendFile($file, $mime = 'application/octet-stream')
     {
         header('Content-Type', $mime);
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
         header("Content-Length: ". filesize($file));
-        echo file_get_contents($file);
+        readfile($file);
     }
 
     public static function xSendFile($file, $mime = 'application/octet-stream')
@@ -1221,21 +1226,21 @@ class Utils
             $info = 'u';
         }
 
-// Owner
+        // Owner
         $info .= (($perms & 0x0100) ? 'r' : '-');
         $info .= (($perms & 0x0080) ? 'w' : '-');
         $info .= (($perms & 0x0040) ?
             (($perms & 0x0800) ? 's' : 'x' ) :
             (($perms & 0x0800) ? 'S' : '-'));
 
-// Group
+        // Group
         $info .= (($perms & 0x0020) ? 'r' : '-');
         $info .= (($perms & 0x0010) ? 'w' : '-');
         $info .= (($perms & 0x0008) ?
             (($perms & 0x0400) ? 's' : 'x' ) :
             (($perms & 0x0400) ? 'S' : '-'));
 
-// World
+        // World
         $info .= (($perms & 0x0004) ? 'r' : '-');
         $info .= (($perms & 0x0002) ? 'w' : '-');
         $info .= (($perms & 0x0001) ?
