@@ -149,7 +149,7 @@ class Client
         return $this->requestIsOk($this->httpClient->requestPost($this->endpoint, $params));
     }
 
-    public function uploadFile($object, $filePath, $bucket, $options = [])
+    public function uploadFile($bucket, $object, $filePath, $options = null)
     {
         if (!is_file($filePath)) {
             throw new \Exception($filePath .' is not file', 400);
@@ -159,7 +159,10 @@ class Client
         $params['object'] = $object;
         $params['file'] = $file;
         $params['bucket'] = $bucket;
-        $params['options'] = $options;
+        if (!empty($options)) {
+            $params['options'] = $options;
+        }
+        $params['operation'] = Utils::OPERATION_UPLOAD_OBJECT;
         return $this->requestIsOk($this->httpClient->requestPost($this->endpoint, $params));
     }
 
@@ -190,7 +193,7 @@ class Client
         return $this->httpClient->requestPost($this->endpoint, $params);
     }
 
-    public function signUrl($object, $timeout = 0, $bucket = null)
+    public function signUrl($bucket, $object = null, $timeout = 0)
     {
         $params = $this->authParams();
         $params['bucket'] = $bucket;
