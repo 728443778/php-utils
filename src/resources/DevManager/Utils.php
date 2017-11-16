@@ -1111,4 +1111,20 @@ class Utils
         }
         return 'application/octet-stream';
     }
+
+    public static function phpSendFile($file, $mime = 'application/octet-stream')
+    {
+        header('Content-Type', $mime);
+        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+        header("Content-Length: ". filesize($file));
+        echo file_get_contents($file);
+    }
+
+    public static function xSendFile($file, $mime = 'application/octet-stream')
+    {
+        header('Content-Type:'. $mime);
+        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+        header("Content-Length: ". filesize($file));
+        header('X-Sendfile:'. $file);
+    }
 }
