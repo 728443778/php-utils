@@ -108,7 +108,7 @@ class Utils
     {
         switch ($errorCode) {
             default:
-                return 'other error';
+                return $errorCode;
         }
     }
 }

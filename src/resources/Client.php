@@ -138,7 +138,7 @@ class Client
         return $this->driver->putObject($bucket, $object, $content, $options);
     }
 
-    public function uploadFile($object, $filePath, $bucket, $options = [])
+    public function uploadFile($object, $filePath, $bucket = null, $options = [])
     {
         if (!$bucket) {
             $bucket = $this->bucket;
