@@ -190,18 +190,19 @@ class Client
         return $this->httpClient->requestPost($this->endpoint, $params);
     }
 
-    public function signUrl($object, $timeout = 3600, $bucket = null)
+    public function signUrl($object, $timeout = 0, $bucket = null)
     {
         $params = $this->authParams();
         $params['bucket'] = $bucket;
         $params['timeout'] = $timeout;
         $params['object'] = $object;
+        $params['operation'] = Utils::OPERATION_SIGN_URL;
         $response = $this->httpClient->requestPost($this->endpoint, $params);
         $result = $this->requestIsOk($response);
         if (!$result) {
             return false;
         }
-        return $result['data'];
+        return $result['url'];
     }
 
 
