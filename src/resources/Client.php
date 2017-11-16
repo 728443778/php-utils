@@ -2,6 +2,7 @@
 
 namespace sevenUtils\resources;
 
+use OSS\OssClient;
 use sevenUtils\resources\DevManager\Utils;
 
 class Client
@@ -13,7 +14,7 @@ class Client
     }
 
     /**
-     * @var \sevenUtils\resources\DevManager\Client
+     * @var OssClient
      */
     protected $driver;
 

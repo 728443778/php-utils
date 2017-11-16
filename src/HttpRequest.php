@@ -39,6 +39,7 @@ class HttpRequest
 
     public function requestPost($url, $data)
     {
+        curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
         return curl_exec($this->curl);
