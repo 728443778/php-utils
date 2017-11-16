@@ -17,13 +17,19 @@ class HttpRequest
         $headers = [
             'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0) Gecko/20100101 Firefox/56.0'
         ];
-        curl_setopt($this->curl, CURLOPT_HEADER, $headers);
+        $this->setRequestHeaders($headers);
+        $this->setHttpHeaderCout(false);
         $this->setTimeout(15);
+    }
+
+    public function setHttpHeaderCout($value)
+    {
+        curl_setopt($this->curl, CURLOPT_HEADER, $value);
     }
 
     public function setRequestHeaders($headers)
     {
-        curl_setopt($this->curl, CURLOPT_HEADER, $headers);
+        curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 
     public function setTimeout($timeout = 20)
