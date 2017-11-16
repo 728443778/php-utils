@@ -1103,9 +1103,16 @@ class Utils
         }
     }
 
-    public static function getMimeTypeByExtension($file)
+    /**
+     * 根据文件的后缀名，获取文件的mime类型
+     * @param $file
+     * @return mixed|string
+     */
+    public static function getMimeTypeByExtension($file, $extension = null)
     {
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        if (!$extension) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+        }
         if (isset(self::$mimeTypes[$extension])) {
             return self::$mimeTypes[$extension];
         }
@@ -1126,5 +1133,115 @@ class Utils
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
         header("Content-Length: ". filesize($file));
         header('X-Sendfile:'. $file);
+    }
+
+    public static function groupUserHasRPerm($perms)
+    {
+        if ($perms & 0x0020) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function groupUserHasWPerm($perms)
+    {
+        if ($perms & 0x0010) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function groupUserHasXPerm($perms)
+    {
+        if ($perms & 0x0008) {
+            if (!($perms & 0x0400)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function otherUserHasRPerm($perms)
+    {
+        if ($perms & 0x0004) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function otherUserHasWPerm($perms)
+    {
+        if ($perms & 0x0002) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function otherUserHasXPerm($perms)
+    {
+        if ($perms & 0x0001) {
+            if (!($perms & 0x0200)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static function getFilePerms($file, $resultString = false)
+    {
+        $perms = fileperms($file);
+        if (!$resultString) {
+            return $perms;
+        }
+
+        if (($perms & 0xC000) == 0xC000) {
+            // Socket
+            $info = 's';
+        } elseif (($perms & 0xA000) == 0xA000) {
+            // Symbolic Link
+            $info = 'l';
+        } elseif (($perms & 0x8000) == 0x8000) {
+            // Regular
+            $info = '-';
+        } elseif (($perms & 0x6000) == 0x6000) {
+            // Block special
+            $info = 'b';
+        } elseif (($perms & 0x4000) == 0x4000) {
+            // Directory
+            $info = 'd';
+        } elseif (($perms & 0x2000) == 0x2000) {
+            // Character special
+            $info = 'c';
+        } elseif (($perms & 0x1000) == 0x1000) {
+            // FIFO pipe
+            $info = 'p';
+        } else {
+            // Unknown
+            $info = 'u';
+        }
+
+// Owner
+        $info .= (($perms & 0x0100) ? 'r' : '-');
+        $info .= (($perms & 0x0080) ? 'w' : '-');
+        $info .= (($perms & 0x0040) ?
+            (($perms & 0x0800) ? 's' : 'x' ) :
+            (($perms & 0x0800) ? 'S' : '-'));
+
+// Group
+        $info .= (($perms & 0x0020) ? 'r' : '-');
+        $info .= (($perms & 0x0010) ? 'w' : '-');
+        $info .= (($perms & 0x0008) ?
+            (($perms & 0x0400) ? 's' : 'x' ) :
+            (($perms & 0x0400) ? 'S' : '-'));
+
+// World
+        $info .= (($perms & 0x0004) ? 'r' : '-');
+        $info .= (($perms & 0x0002) ? 'w' : '-');
+        $info .= (($perms & 0x0001) ?
+            (($perms & 0x0200) ? 't' : 'x' ) :
+            (($perms & 0x0200) ? 'T' : '-'));
+        return $info;
+
     }
 }
