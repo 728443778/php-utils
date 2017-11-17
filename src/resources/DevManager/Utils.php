@@ -1123,8 +1123,12 @@ class Utils
      * 该函数是直接向标准输出流输出 如果需要调整，清调整 STDOUT  指向的文件描述符
      * 抄自php手册
      * 不对文件是否存在做判断，请确保文件存在
-     * @param $file
+     * @param $file string 文件路径
      * @param string $mime
+     * @param string $fileName
+     * @param int $size
+     * @param $lastModified string
+     * @param bool $keepConnection
      */
     public static function phpSendFile($file, $mime = 'application/octet-stream', $fileName = '', $size = 0, $lastModified = 0, $keepConnection = false)
     {
@@ -1296,6 +1300,13 @@ class Utils
             (($perms & 0x0200) ? 't' : 'x' ) :
             (($perms & 0x0200) ? 'T' : '-'));
         return $info;
+    }
 
+    public static function getRequestTime()
+    {
+        if (isset($_SERVER['REQUEST_TIME'])) {
+            return $_SERVER['REQUEST_TIME'];
+        }
+        return time();
     }
 }
