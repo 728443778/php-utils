@@ -1302,6 +1302,11 @@ class Utils
         return $info;
     }
 
+    /**
+     * 获取request time 通过$_SERVER变量
+     * 如果不存在，返回当前时间
+     * @return int
+     */
     public static function getRequestTime()
     {
         if (isset($_SERVER['REQUEST_TIME'])) {
