@@ -22,27 +22,50 @@ class HttpRequest
         $this->setTimeout(15);
     }
 
+    /**
+     * 是否设置 把头信息输出
+     * @param $value
+     */
     public function setHttpHeaderCout($value)
     {
         curl_setopt($this->curl, CURLOPT_HEADER, $value);
     }
 
+    /**
+     * 设置请求的header 头
+     * @param $headers
+     */
     public function setRequestHeaders($headers)
     {
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 
+    /**
+     * 设置请求的超时时间
+     * @param int $timeout
+     */
     public function setTimeout($timeout = 20)
     {
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
     }
 
+    /**
+     * 发起一个get  请求
+     * @param $url
+     * @return mixed
+     */
     public function requestGet($url)
     {
         curl_setopt($this->curl, CURLOPT_URL, $url);
         return curl_exec($this->curl);
     }
 
+    /**
+     * 发起一个post请求，data只能为一维数组 php7.1 版本是这样
+     * @param $url
+     * @param $data
+     * @return mixed
+     */
     public function requestPost($url, $data)
     {
         curl_setopt($this->curl, CURLOPT_URL, $url);
@@ -51,23 +74,39 @@ class HttpRequest
         return curl_exec($this->curl);
     }
 
+    /**
+     * 获取最近一次请求的响应状态码
+     * @return mixed
+     */
     public function getResponseCode()
     {
         return curl_getinfo($this->curl, CURLINFO_HTTP_CODE);
     }
 
+    /**
+     * 获取响应头
+     * @return mixed
+     */
     public function getResponseHeaders()
     {
         return curl_getinfo($this->curl);
     }
 
-    public function downLoadFile($url, $params, $localfile)
+    /**
+     * 把文件下载到 localfile
+     * @param $url
+     * @param $params array post 参数，如果为空则发起get请求,否则发起post请求
+     * @param $localfile
+     */
+    public function downLoadFile($url, $localfile, $params  = [])
     {
         $fp = fopen($localfile, 'w');
         curl_setopt($this->curl, CURLOPT_FILE, $fp);
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        curl_setopt($this->curl, CURLOPT_POST, true);
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
+        if (!empty($params)) {
+            curl_setopt($this->curl, CURLOPT_POST, true);
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
+        }
         curl_exec($this->curl);
     }
 
@@ -83,6 +122,11 @@ class HttpRequest
         return curl_file_create($filename, $mimetype, $postname);
     }
 
+    /**
+     * 发起一个get请求
+     * @param $url
+     * @return bool|string
+     */
     public static function get($url)
     {
         try {
@@ -93,16 +137,30 @@ class HttpRequest
         }
     }
 
+    /**
+     * 获取错误码
+     * @return int
+     */
     public function getErrorCode()
     {
         return curl_errno($this->curl);
     }
 
+    /**
+     * 获取curl的错误消息
+     * @return string
+     */
     public function getErrorStr()
     {
         return curl_error($this->curl);
     }
 
+    /**
+     * 发起一个post请求
+     * @param $url
+     * @param $data
+     * @return bool|string
+     */
     public static function post($url, $data)
     {
         try {
