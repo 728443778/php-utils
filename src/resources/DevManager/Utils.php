@@ -1201,7 +1201,7 @@ class Utils
      */
     public static function getFilePerms($file, $resultString = false)
     {
-        $perms = f@ileperms($file);
+        $perms = @fileperms($file);
         if (!$resultString) {
             return $perms;
         }
