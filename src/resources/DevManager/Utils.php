@@ -1121,15 +1121,58 @@ class Utils
 
     /**
      * 该函数是直接向标准输出流输出 如果需要调整，清调整 STDOUT  指向的文件描述符
+     * 抄自php手册
+     * 不对文件是否存在做判断，请确保文件存在
      * @param $file
      * @param string $mime
      */
-    public static function phpSendFile($file, $mime = 'application/octet-stream')
+    public static function phpSendFile($file, $mime = 'application/octet-stream', $fileName = '', $size = 0, $lastModified = 0, $keepConnection = false)
     {
-        header('Content-Type', $mime);
-        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-        header("Content-Length: ". filesize($file));
-        readfile($file);
+        if (!$size)  {
+            $size = filesize($file);
+        }
+        if (!$fileName) {
+            $fileName = pathinfo($file, PATHINFO_FILENAME);
+        }
+        if (!$lastModified) {
+            $lastModified = date('r',filemtime($file));
+        }
+        $fd = fopen($file, 'rb');
+        $begin =0;
+        $end = $size;
+        if (isset($_SERVER['HTTP_RANGE'])) {
+            if(preg_match('/bytes=\h*(\d+)-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
+                $begin=intval($matches[0]);
+                if(!empty($matches[1]))
+                $end=intval($matches[1]);
+            }
+        }
+        if($begin>0||$end<$size)
+            header('HTTP/1.0 206 Partial Content');
+        else
+            header('HTTP/1.0 200 OK');
+        header('Content-Type:' . $mime);
+        header('Cache-Control: public, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('Accept-Ranges: bytes');
+        header('Content-Length:'.($end-$begin));
+        header('Content-Range: bytes '. $begin-$end/$size);
+        header('Content-Disposition: inline; filename='.$fileName);
+        header('Content-Transfer-Encoding: binary'."\n");
+        header('Last-Modified: ' . $lastModified);
+        header('Connection: close');
+        header('Content-Type:'. $mime);
+        header('Connection: close');
+        fseek($fd,$begin,0);
+        if (!$keepConnection) {
+            fpassthru($fd);
+        } else {
+            $cur=$begin;
+            while(!feof($fd) && $cur<$end && (connection_status()==0) ) {
+                print fread($fd,min(1024*16,$end-$cur));
+                $cur+=1024*16;
+            }
+        }
     }
 
     public static function xSendFile($file, $mime = 'application/octet-stream')
