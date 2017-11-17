@@ -8,6 +8,8 @@ use sevenUtils\resources\DevManager\Utils;
 class Client
 {
 
+    public $endpoint;
+
     public function getErrorMessage()
     {
         return $this->driver->getErrorMessage();
@@ -172,10 +174,13 @@ class Client
         return $this->driver->getObject($object, $bucket, $options);
     }
 
-    public function signUrl($object, $timeout = 3600, $bucket = null)
+    public function signUrl($object, $timeout = 3600, $bucket = null, $bucketIsPublic = false)
     {
         if (!$bucket) {
             $bucket = $this->bucket;
+        }
+        if ($bucketIsPublic) {
+            return $this->endpoint . '/' . $this->bucket . '/' . $object;
         }
         return $this->driver->signUrl($bucket, $object, $timeout);
     }

@@ -1193,9 +1193,15 @@ class Utils
     }
 
 
+    /**
+     * 获取文件权限
+     * @param $file string 文件路径
+     * @param bool $resultString 是否以字符串的形式放回 -rwx-rwx-rwx
+     * @return bool|int|string
+     */
     public static function getFilePerms($file, $resultString = false)
     {
-        $perms = fileperms($file);
+        $perms = f@ileperms($file);
         if (!$resultString) {
             return $perms;
         }
