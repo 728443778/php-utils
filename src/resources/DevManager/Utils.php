@@ -1179,6 +1179,11 @@ class Utils
         }
     }
 
+    /**
+     * 通过apache 的 xsendfile模块发送文件
+     * @param $file
+     * @param string $mime
+     */
     public static function xSendFile($file, $mime = 'application/octet-stream')
     {
         header('Content-Type:'. $mime);
@@ -1187,6 +1192,11 @@ class Utils
         header('X-Sendfile:'. $file);
     }
 
+    /**
+     * 组用户是否有读权限
+     * @param $perms 通过fileperms 获取到的权限
+     * @return bool
+     */
     public static function groupUserHasRPerm($perms)
     {
         if ($perms & 0x0020) {
