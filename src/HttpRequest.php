@@ -161,10 +161,12 @@ class HttpRequest
      * @param $data
      * @return bool|string
      */
-    public static function post($url, $data)
+    public static function post($url, $data, $isBuildQuery = true)
     {
         try {
-            $data = http_build_query($data);
+            if ($isBuildQuery) {
+                $data = http_build_query($data);
+            }
             $http = [
                 'http' => [
                     'method' => 'POST',
