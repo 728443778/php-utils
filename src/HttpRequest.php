@@ -127,10 +127,12 @@ class HttpRequest
      * @param $url
      * @return bool|string
      */
-    public static function get($url)
+    public static function get($url, $isUrlEncode = false)
     {
         try {
-            $url = urlencode($url);
+            if ($isUrlEncode) {
+                $url = urlencode($url);
+            }
             return file_get_contents($url);
         } catch (\Exception $exception) {
             return $exception->getMessage() . ':' . $exception->getTraceAsString();
