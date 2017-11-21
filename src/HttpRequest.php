@@ -125,12 +125,15 @@ class HttpRequest
     /**
      * 发起一个get请求
      * @param $url
+     * @param $isUrlEncode bool 是否进行urlencode编码 如果使用了这个选项 服务器也需要对url进行解码 这是成对的
      * @return bool|string
      */
-    public static function get($url)
+    public static function get($url, $isUrlEncode = true)
     {
         try {
-            $url = urlencode($url);
+            if ($isUrlEncode) {
+                $url = urlencode($url);
+            }
             return file_get_contents($url);
         } catch (\Exception $exception) {
             return $exception->getMessage() . ':' . $exception->getTraceAsString();
@@ -158,7 +161,8 @@ class HttpRequest
     /**
      * 发起一个post请求
      * @param $url
-     * @param $data
+     * @param $data array|string
+     * @param $isBuildQuery bool 对data进行urlencode编码，
      * @return bool|string
      */
     public static function post($url, $data, $isBuildQuery = true)

@@ -1098,6 +1098,40 @@ class Utils
     public static function getErrorStrByErrorCode($errorCode)
     {
         switch ($errorCode) {
+            case ERROR_OBJECTS_DOES_NOT_EXISTS:
+                return 'Object does not exists';
+            case ERROR_ACCESS_FORBIDDEN:
+                return 'Prohibit access';
+            case ERROR_APP_ACCESS_AUTH_FAILED:
+                return 'Access aut failed';
+            case ERROR_NONE:
+                return 'success';
+            case ERROR_OPERATION_FAILED:
+                return 'Operation failed';
+            case ERROR_UPLOAD_FILE_FAILED:
+                return 'Upload file failed';
+            case ERROR_UPLOAD_FILE_NUMBER_ERROR:
+                return 'Wrong number of uploaded files';
+            case ERROR_OBJECT_NAME_INVALID:
+                return 'Object name wrong';
+            case ERROR_REQUEST_DATA_EMPTY:
+                return 'Request data is empty';
+            case ERROR_MOBILE_NUMBER_NOT_EXISTS:
+                return 'Mobile not exists';
+            case ERROR_MOBILE_NUMBER_EXISTS:
+                return 'Mobile exists';
+            case ERROR_MOBILE_NUMBER_INVALID:
+                return 'Mobile is invalid';
+            case ERROR_SEND_SMS_FAILED:
+                return 'Send sms failed';
+            case ERROR_INVALID_PARAM:
+                return 'Invalid param';
+            case ERROR_REQUEST_TOO_BUSY:
+                return 'Request too busy';
+            case ERROR_GOLD_NOT_ENOUGH:
+                return 'Gold not enough';
+            case ERROR_CLIENT_IP_DATA_INVALID:
+                return 'Ip data is invalid';
             default:
                 return $errorCode;
         }
