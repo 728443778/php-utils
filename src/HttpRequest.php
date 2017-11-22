@@ -19,7 +19,16 @@ class HttpRequest
         ];
         $this->setRequestHeaders($headers);
         $this->setHttpHeaderCout(false);
+        $this->setHeaderOutToInfo(true);
         $this->setTimeout(15);
+    }
+
+    /**
+     * @param $value boolean
+     */
+    public function setHeaderOutToInfo($value)
+    {
+        curl_setopt($this->curl,CURLINFO_HEADER_OUT, $value);
     }
 
     /**
