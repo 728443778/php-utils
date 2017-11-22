@@ -1132,6 +1132,10 @@ class Utils
                 return 'Gold not enough';
             case ERROR_CLIENT_IP_DATA_INVALID:
                 return 'Ip data is invalid';
+            case ERROR_GET_MONGODB_CONNECTION_FAILED:
+                return 'Get mongodb connection failed';
+            case ERROR_SELECT_MONGODB_COLLECTION_FAILED:
+                return 'Select mongodb collection failed';
             default:
                 return $errorCode;
         }
@@ -1139,7 +1143,8 @@ class Utils
 
     /**
      * 根据文件的后缀名，获取文件的mime类型
-     * @param $file
+     * @param string $file 文件名
+     * @param string $extension 文件后缀名，如果传递了此参数，则直接返回该后缀名对应的mime类型
      * @return mixed|string
      */
     public static function getMimeTypeByExtension($file, $extension = null)
@@ -1159,9 +1164,9 @@ class Utils
      * 不对文件是否存在做判断，请确保文件存在
      * @param $file string 文件路径
      * @param string $mime
-     * @param string $fileName
-     * @param int $size
-     * @param $lastModified string
+     * @param string $fileName 下载文件名
+     * @param int $size 文件大小，传递了此参数，不会去获取文件的大小
+     * @param $lastModified string  文件的最后修改时间，传递了此参数，不会去获取文件的最后修改时间
      * @param bool $keepConnection
      */
     public static function phpSendFile($file, $mime = 'application/octet-stream', $fileName = '', $size = 0, $lastModified = 0, $keepConnection = false)
@@ -1200,7 +1205,6 @@ class Utils
         header('Last-Modified: ' . $lastModified);
         header('Connection: close');
         header('Content-Type:'. $mime);
-        header('Connection: close');
         fseek($fd,$begin,0);
         if (!$keepConnection) {
             fpassthru($fd);
@@ -1239,6 +1243,11 @@ class Utils
         return false;
     }
 
+    /**
+     *  zu组用户是否有写权限
+     * @param $perms
+     * @return bool
+     */
     public static function groupUserHasWPerm($perms)
     {
         if ($perms & 0x0010) {
@@ -1247,6 +1256,11 @@ class Utils
         return false;
     }
 
+    /**
+     * 组用户是否有x权限
+     * @param $perms
+     * @return bool
+     */
     public static function groupUserHasXPerm($perms)
     {
         if ($perms & 0x0008) {
@@ -1257,6 +1271,11 @@ class Utils
         return false;
     }
 
+    /**
+     * 其他用户是否有R权限
+     * @param $perms
+     * @return bool
+     */
     public static function otherUserHasRPerm($perms)
     {
         if ($perms & 0x0004) {
@@ -1265,6 +1284,11 @@ class Utils
         return false;
     }
 
+    /**
+     * 其他用户是否有w权限
+     * @param $perms
+     * @return bool
+     */
     public static function otherUserHasWPerm($perms)
     {
         if ($perms & 0x0002) {
@@ -1273,6 +1297,11 @@ class Utils
         return false;
     }
 
+    /**
+     * 其他用户是否有X权限
+     * @param $perms
+     * @return bool
+     */
     public static function otherUserHasXPerm($perms)
     {
         if ($perms & 0x0001) {
