@@ -7,6 +7,17 @@ class HttpRequest
 
     protected $curl;
 
+    protected static $_instance;
+
+    public static function getInstance($reinit = false)
+    {
+        if (static::$_instance && !$reinit) {
+            return static::$_instance;
+        }
+        static::$_instance = new static();
+        return static::$_instance;
+    }
+
     public function __construct()
     {
         $this->curl = curl_init();
@@ -179,6 +190,9 @@ class HttpRequest
         try {
             if ($isBuildQuery) {
                 $data = http_build_query($data);
+            }
+            if (is_array($data)) {
+                $data = json_encode($data);
             }
             $http = [
                 'http' => [
