@@ -7,6 +7,17 @@ class HttpRequest
 
     protected $curl;
 
+    protected static $_instance;
+
+    public static function getInstance($reinit = false)
+    {
+        if (static::$_instance && !$reinit) {
+            return static::$_instance;
+        }
+        static::$_instance = new static();
+        return static::$_instance;
+    }
+
     public function __construct()
     {
         $this->curl = curl_init();
@@ -19,7 +30,16 @@ class HttpRequest
         ];
         $this->setRequestHeaders($headers);
         $this->setHttpHeaderCout(false);
+        $this->setHeaderOutToInfo(true);
         $this->setTimeout(15);
+    }
+
+    /**
+     * @param $value boolean
+     */
+    public function setHeaderOutToInfo($value)
+    {
+        curl_setopt($this->curl,CURLINFO_HEADER_OUT, $value);
     }
 
     /**
@@ -125,12 +145,15 @@ class HttpRequest
     /**
      * 发起一个get请求
      * @param $url
+     * @param $isUrlEncode bool 是否进行urlencode编码 如果使用了这个选项 服务器也需要对url进行解码 这是成对的
      * @return bool|string
      */
-    public static function get($url)
+    public static function get($url, $isUrlEncode = true)
     {
         try {
-            $url = urlencode($url);
+            if ($isUrlEncode) {
+                $url = urlencode($url);
+            }
             return file_get_contents($url);
         } catch (\Exception $exception) {
             return $exception->getMessage() . ':' . $exception->getTraceAsString();
@@ -158,13 +181,19 @@ class HttpRequest
     /**
      * 发起一个post请求
      * @param $url
-     * @param $data
+     * @param $data array|string
+     * @param $isBuildQuery bool 对data进行urlencode编码，
      * @return bool|string
      */
-    public static function post($url, $data)
+    public static function post($url, $data, $isBuildQuery = true)
     {
         try {
-            $data = http_build_query($data);
+            if ($isBuildQuery) {
+                $data = http_build_query($data);
+            }
+            if (is_array($data)) {
+                $data = json_encode($data);
+            }
             $http = [
                 'http' => [
                     'method' => 'POST',
