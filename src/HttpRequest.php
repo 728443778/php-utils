@@ -9,6 +9,11 @@ class HttpRequest
 
     protected static $_instance;
 
+    /**
+     * 获取http request 单例
+     * @param bool $reinit 是否重新初始化
+     * @return static
+     */
     public static function getInstance($reinit = false)
     {
         if (static::$_instance && !$reinit) {
