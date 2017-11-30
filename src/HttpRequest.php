@@ -9,6 +9,8 @@ class HttpRequest
 
     protected static $_instance;
 
+    protected $_returnArrayByJsonDecode;
+
     /**
      * 获取http request 单例
      * @param bool $reinit 是否重新初始化
@@ -37,6 +39,11 @@ class HttpRequest
         $this->setHttpHeaderCout(false);
         $this->setHeaderOutToInfo(true);
         $this->setTimeout(15);
+    }
+
+    public function returnJsonDecode($bool = true)
+    {
+        $this->_returnArrayByJsonDecode = $bool;
     }
 
     /**
@@ -233,6 +240,8 @@ class HttpRequest
 
     protected function afterRequest(&$response)
     {
-
+        if ($this->_returnArrayByJsonDecode) {
+            return json_decode($response, true);
+        }
     }
 }
