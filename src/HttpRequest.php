@@ -81,8 +81,11 @@ class HttpRequest
      */
     public function requestGet($url)
     {
+        $this->beforeRequest($url);
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        return curl_exec($this->curl);
+        $response = curl_exec($this->curl);
+        $this->afterRequest($response);
+        return $response;
     }
 
     /**
@@ -93,10 +96,13 @@ class HttpRequest
      */
     public function requestPost($url, $data)
     {
+        $this->beforeRequest($url, $data);
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
-        return curl_exec($this->curl);
+        $response = curl_exec($this->curl);
+        $this->afterRequest($response);
+        return $response;
     }
 
     /**
@@ -218,5 +224,15 @@ class HttpRequest
     {
         // TODO: Implement __destruct() method.
         curl_close($this->curl);
+    }
+
+    public function beforeRequest($url, $data = [])
+    {
+
+    }
+
+    protected function afterRequest(&$response)
+    {
+
     }
 }
