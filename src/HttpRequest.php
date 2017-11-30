@@ -12,6 +12,12 @@ class HttpRequest
     protected $_returnArrayByJsonDecode;
 
     /**
+     * 最近一次请求返回的原始数据 body部分
+     * @var
+     */
+    public $lastResponse;
+
+    /**
      * 获取http request 单例
      * @param bool $reinit 是否重新初始化
      * @return static
@@ -90,7 +96,7 @@ class HttpRequest
     {
         $this->beforeRequest($url);
         curl_setopt($this->curl, CURLOPT_URL, $url);
-        $response = curl_exec($this->curl);
+        $this->lastResponse = $response = curl_exec($this->curl);
         $this->afterRequest($response);
         return $response;
     }
@@ -107,7 +113,7 @@ class HttpRequest
         curl_setopt($this->curl, CURLOPT_URL, $url);
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($this->curl);
+        $this->lastResponse = $response = curl_exec($this->curl);
         $this->afterRequest($response);
         return $response;
     }
