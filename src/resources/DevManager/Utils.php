@@ -1142,6 +1142,8 @@ class Utils
                 return 'user not exists';
             case ERROR_PASSWORD_ERROR:
                 return 'invalid password';
+            case ERROR_NOT_FOUND:
+                return 'NOT FOUND';
             default:
                 return $errorCode;
         }

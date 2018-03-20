@@ -1,6 +1,7 @@
 <?php
 //错误号都1w起，避免和系统级别的错误混淆
 define('ERROR_NONE', 0);
+define('ERROR_NOT_FOUND', 404);
 define('ERROR_MOBILE_NUMBER_EXISTS', 10001);
 define('ERROR_MOBILE_NUMBER_INVALID', 10002);
 define('ERROR_CAPTCHA_INVALID', 10003);
