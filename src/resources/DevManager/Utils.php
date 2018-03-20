@@ -1144,6 +1144,8 @@ class Utils
                 return 'invalid password';
             case ERROR_NOT_FOUND:
                 return 'NOT FOUND';
+            case ERROR_INVALID_REQUEST_METHOD:
+                return 'invalid request method';
             default:
                 return $errorCode;
         }
