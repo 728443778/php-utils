@@ -1136,6 +1136,8 @@ class Utils
                 return 'Get mongodb connection failed';
             case ERROR_SELECT_MONGODB_COLLECTION_FAILED:
                 return 'Select mongodb collection failed';
+            case ERROR_CAPTCHA_INVALID:
+                return 'invalid captcha';
             default:
                 return $errorCode;
         }
