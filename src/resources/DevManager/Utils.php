@@ -1138,6 +1138,10 @@ class Utils
                 return 'Select mongodb collection failed';
             case ERROR_CAPTCHA_INVALID:
                 return 'invalid captcha';
+            case ERROR_USER_NOT_EXISTS:
+                return 'user not exists';
+            case ERROR_PASSWORD_ERROR:
+                return 'invalid password';
             default:
                 return $errorCode;
         }
