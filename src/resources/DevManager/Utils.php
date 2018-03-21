@@ -1146,6 +1146,8 @@ class Utils
                 return 'NOT FOUND';
             case ERROR_INVALID_REQUEST_METHOD:
                 return 'invalid request method';
+            case ERROR_PROCESS_FAILED:
+                return 'process failed';
             default:
                 return $errorCode;
         }
