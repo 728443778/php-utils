@@ -1148,6 +1148,8 @@ class Utils
                 return 'invalid request method';
             case ERROR_PROCESS_FAILED:
                 return 'process failed';
+            case ERROR_DATA_INVALID:
+                return 'data invalid';
             default:
                 return $errorCode;
         }
