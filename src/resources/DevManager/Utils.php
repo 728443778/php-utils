@@ -1401,4 +1401,27 @@ class Utils
         }
         return time();
     }
+
+    /**
+     * @param $url string
+     * @param $params array | string
+     * @param bool $absolute
+     */
+    public static function genUrl($url, $params, $absolute = false)
+    {
+        if (is_string($params)) {
+            $url .= $params;
+        } elseif (is_array($params)) {
+            $url .= '?';
+            foreach ($params as $key=>$value) {
+                $url .= $key .'=' . $value . '&';
+            }
+        }
+        if (!$absolute) {
+            return $url;
+        }
+        $scheme = $_SERVER['REQUEST_SCHEME'];
+        $host = $_SERVER['HTTP_HOST'];
+        return $scheme . '://' . $host . '/' . $url;
+    }
 }
