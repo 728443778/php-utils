@@ -1189,7 +1189,7 @@ class Utils
         return $result;
     }
 
-    public static function genNumberId($randNumberLength = 8, $mask = 0xFFFFFFFF)
+    public static function genNumberId($randNumberLength = 8, $prefix = '', $mask = 0xFFFFFFFF)
     {
         if (function_exists('microtime')) {
             $time = microtime(true);
@@ -1199,9 +1199,8 @@ class Utils
         $time = $time * 10000;
         $start = $time;
         $start = (string)($start & $mask);
-        $pid = (int)getmypid();
-        $result = $start . $pid;
-        return $result . self::genRandNumber($randNumberLength);
+        $result = $start;
+        return $prefix . $result . self::genRandNumber($randNumberLength);
     }
 
 
