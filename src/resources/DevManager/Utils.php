@@ -1189,7 +1189,7 @@ class Utils
         return $result;
     }
 
-    public static function genNumberId($mask = 0xFFFFFFFF, $randNumberLength = 8)
+    public static function genNumberId($randNumberLength = 8, $mask = 0xFFFFFFFF)
     {
         if (function_exists('microtime')) {
             $time = microtime(true);
