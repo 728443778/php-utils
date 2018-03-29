@@ -1173,6 +1173,40 @@ class Utils
     }
 
     /**
+     * 生成随机数字的字符串
+     * 如果适用的事phalcon框架，直接采用phalcon的 random生成，这个的开销肯定比phalcon的高
+     * @param int $length
+     * @return string
+     */
+    public static function genRandNumber($length = 6)
+    {
+        $numbers = '0123456789';
+        $result = '';
+        for ($i = 0;$i < $length; ++$i) {
+            $p = mt_rand(0, 9);
+            $result .= $numbers[$p];
+        }
+        return $result;
+    }
+
+    public static function genNumberId($mask = 0xFFFFFFFF, $randNumberLength = 8)
+    {
+        if (function_exists('microtime')) {
+            $time = microtime(true);
+        } else {
+            $time = time();
+        }
+        $time = $time * 10000;
+        $start = $time  << 2;
+        $start = (string)($start & $mask);
+        $pid = (int)getmypid();
+        $result = $start . $pid;
+        return $result . self::genRandNumber($randNumberLength);
+    }
+
+
+
+    /**
      * 该函数是直接向标准输出流输出 如果需要调整，清调整 STDOUT  指向的文件描述符
      * 抄自php手册
      * 不对文件是否存在做判断，请确保文件存在
