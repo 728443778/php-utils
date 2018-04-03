@@ -1435,6 +1435,15 @@ class Utils
         return time();
     }
 
+    public static function getDayStartTimeByTime($time = null)
+    {
+        if ($time === null) {
+            return mktime(0, 0,0);
+        }
+        $date = date('Y-m-d', $time);
+        return strtotime($date);
+    }
+
     /**
      * @param $url string
      * @param $params array | string
