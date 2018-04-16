@@ -72,6 +72,7 @@ class HttpRequest
     /**
      * 设置请求的header 头
      * @param $headers
+     * @eg HttpRequest::getInstance()->setRequestHeaders(['Content-type:application/json'])
      */
     public function setRequestHeaders($headers)
     {
