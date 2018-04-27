@@ -1264,6 +1264,21 @@ class Utils
         }
     }
 
+    public static function sendContentAsFile($content, $fileName, $mime)
+    {
+        $size = strlen($content);
+        header('Content-Type:' . $mime);
+        header('Cache-Control: public, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('Accept-Ranges: bytes');
+        header('Content-Length:'.$size);
+        header('Content-Disposition: inline; filename='.$fileName);
+        header('Content-Transfer-Encoding: binary'."\n");
+        header('Connection: close');
+        header('Content-Type:'. $mime);
+        print  $content;
+    }
+
     /**
      * 通过apache 的 xsendfile模块发送文件
      * @param $file
