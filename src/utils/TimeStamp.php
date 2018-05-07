@@ -23,7 +23,8 @@ class TimeStamp
 
     public function getCurrentMonthStartUnixTime()
     {
-        $date = date('Y-m-d');
+        $date = date('Y-m');
+        $date = $date . '-01';
         return strtotime($date);
     }
 
