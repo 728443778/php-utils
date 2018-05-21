@@ -1,6 +1,6 @@
 <?php
 
-namespace sevenUtils;
+namespace sevenUtils\http;
 
 use sevenUtils\traits\SingleInstance;
 
