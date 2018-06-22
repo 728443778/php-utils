@@ -34,6 +34,10 @@ class HttpRequest
         $this->setTimeout(15);
     }
 
+    /**
+     * @param bool $bool
+     * @return self
+     */
     public function returnJsonDecode($bool = true)
     {
         $this->_returnArrayByJsonDecode = $bool;
@@ -42,6 +46,7 @@ class HttpRequest
 
     /**
      * @param $value boolean
+     * @return self
      */
     public function setHeaderOutToInfo($value)
     {
@@ -52,6 +57,7 @@ class HttpRequest
     /**
      * 是否设置 把头信息输出
      * @param $value
+     * @return self
      */
     public function setHttpHeaderCout($value)
     {
@@ -63,6 +69,7 @@ class HttpRequest
      * 设置请求的header 头
      * @param $headers
      * @eg HttpRequest::getInstance()->setRequestHeaders(['Content-type:application/json'])
+     * @return self
      */
     public function setRequestHeaders($headers)
     {
@@ -70,6 +77,9 @@ class HttpRequest
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setConnIsKeepAlive()
     {
         curl_setopt($this->curl, CURLOPT_TCP_KEEPALIVE, 1);
@@ -79,6 +89,7 @@ class HttpRequest
     /**
      * 设置请求的超时时间
      * @param int $timeout
+     * @return self
      */
     public function setTimeout($timeout = 20)
     {
