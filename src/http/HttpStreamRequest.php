@@ -2,9 +2,11 @@
 
 namespace sevenUtils\http;
 
+use sevenUtils\traits\SingleInstance;
+
 class HttpStreamRequest
 {
-
+    use SingleInstance;
 
     public function __construct($url = '')
     {
@@ -19,22 +21,25 @@ class HttpStreamRequest
         $data = stream_socket_recvfrom($fd, 10240);
         var_dump($data);
     }
-}
 
-$errno = '';
-$errstr = '';
-$fd = fopen('https://api.sportradar.us/soccer-xt3/eu/en/tournaments/sr:tournament:17/seasons.xml?api_key=zhhz9bgr54g49tawbasjjqat', 'r');
-if (!$fd) {
-    exit('fopen failed');
-}
-while (1) {
-    var_dump($http_response_header);
-    if (isset($http_response_header['Content-Length']) && $http_response_header['Content-Length'] > 0) {
-        $data = fread($fd, $http_response_header['Content-Length']);
-        $http_response_header = [];
-        echo $data,PHP_EOL;
-    } else {
-        echo 'sleep',PHP_EOL;
-        sleep(3);
+    public function requestHttp($url, $method, $data = [], $headers = [], $timeOut = 5)
+    {
+        $requestContent = [];
+        if (!empty($data)) {
+            $data = http_build_query($data);
+            $requestContent['content'] = $data;
+        }
+        if (!empty($headers)) {
+            $requestContent['header'] = $headers;
+        }
+        $method = ucwords($method);
+        $requestContent['method'] = $method;
+        $context = stream_context_create(['http' => $requestContent]);
+        $errno = null;
+        $errstr = '';
+        $fd = stream_socket_client($url, $errno, $errstr, $timeOut, null, $context);
+        $data = stream_socket_recvfrom($fd, 102400);
+        fclose($fd);
+        return $data;
     }
 }
