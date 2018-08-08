@@ -34,6 +34,11 @@ class HttpRequest
         $this->setTimeout(15);
     }
 
+    public function __construct()
+    {
+
+    }
+
     public function returnJsonDecode($bool = true)
     {
         $this->_returnArrayByJsonDecode = $bool;

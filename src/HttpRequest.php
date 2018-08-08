@@ -18,6 +18,11 @@ class HttpRequest
      */
     public $lastResponse;
 
+    public function __construct()
+    {
+
+    }
+
     public function init()
     {
         $this->curl = curl_init();
