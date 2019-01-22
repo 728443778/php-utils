@@ -96,7 +96,7 @@ class HttpRequest
         $this->beforeRequest($url);
         curl_setopt($this->curl, CURLOPT_URL, $url);
         $this->lastResponse = $response = curl_exec($this->curl);
-        $this->afterRequest($response);
+        $response = $this->afterRequest($response);
         return $response;
     }
 
@@ -113,7 +113,7 @@ class HttpRequest
         curl_setopt($this->curl, CURLOPT_POST, true);
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
         $this->lastResponse = $response = curl_exec($this->curl);
-        $this->afterRequest($response);
+        $response = $this->afterRequest($response);
         return $response;
     }
 
