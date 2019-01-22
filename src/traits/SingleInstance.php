@@ -19,6 +19,13 @@ trait SingleInstance
         return static::$_instance;
     }
 
+    public static function getNewInstance()
+    {
+        $model = new static();
+        $model->init();
+        return $model;
+    }
+
     public function init()
     {
 

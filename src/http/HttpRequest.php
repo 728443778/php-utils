@@ -42,6 +42,7 @@ class HttpRequest
     public function returnJsonDecode($bool = true)
     {
         $this->_returnArrayByJsonDecode = $bool;
+        return $this;
     }
 
     /**
