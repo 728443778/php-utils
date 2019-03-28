@@ -264,5 +264,6 @@ class HttpRequest
         if ($this->_returnArrayByJsonDecode) {
             return json_decode($response, true);
         }
+        return $response;
     }
 }
