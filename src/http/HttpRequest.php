@@ -51,6 +51,7 @@ class HttpRequest
     public function setHeaderOutToInfo($value)
     {
         curl_setopt($this->curl,CURLINFO_HEADER_OUT, $value);
+        return $this;
     }
 
     /**
@@ -60,6 +61,7 @@ class HttpRequest
     public function setHttpHeaderCout($value)
     {
         curl_setopt($this->curl, CURLOPT_HEADER, $value);
+        return $this;
     }
 
     /**
@@ -70,11 +72,13 @@ class HttpRequest
     public function setRequestHeaders($headers)
     {
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
+        return $this;
     }
 
     public function setConnIsKeepAlive()
     {
         curl_setopt($this->curl, CURLOPT_TCP_KEEPALIVE, 1);
+        return $this;
     }
 
     /**
@@ -84,6 +88,7 @@ class HttpRequest
     public function setTimeout($timeout = 20)
     {
         curl_setopt($this->curl, CURLOPT_TIMEOUT, $timeout);
+        return $this;
     }
 
     /**
@@ -151,6 +156,7 @@ class HttpRequest
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         }
         curl_exec($this->curl);
+        return $this;
     }
 
     /**
