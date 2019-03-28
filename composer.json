@@ -2,7 +2,7 @@
   "name": "728443778/sevenUtils",
   "type": "library",
   "description": "一些php的工具类，做成composer包，方便更新和使用",
-  "version" : "0.9.9",
+  "version" : "1.0",
   "keywords": [
     "php utils",
     "utils"
